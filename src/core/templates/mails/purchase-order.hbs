@@ -1,0 +1,35 @@
+{{!< layouts/main }}
+
+<h2>Estimado(a), {{supplierName}}!</h2>
+
+<p>Le enviamos los detalles de la orden de compra N°: <strong>{{ orderNumber }}</strong></p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each purchaseOrderDetails}}
+        <tr>
+            <td>{{this.productName}}</td>
+            <td>{{this.quantity}}</td>
+            <td>{{formatCurrency this.cost}}</td>
+        </tr>
+        {{/each}}
+        <tr>
+            <td colspan="2"><strong>Total:</strong></td>
+            <td>{{formatCurrency total}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p class="note">Nota: {{ notes }}</p>
+
+<p>Por favor, le solicitamos confirmar la orden de compra a la brevedad.</p>
+<p>Para cualquier consulta, no dude en contactarnos.</p>
+<p>Atentamente, {{ employeeName }}</p>
+<p>¡Muchas gracias!</p>

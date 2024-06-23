@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
+  // Creación de la aplicación
   const app = await NestFactory.create(AppModule);
 
   // Configuración de prefijo global
