@@ -1,8 +1,8 @@
 {
-  "name": "LaVeguitaClickAPI",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "la-veguita-click-api",
+  "version": "0.1.0",
+  "description": "La VeguitaCLick API",
+  "author": "Orel Naranjo Dominguez",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

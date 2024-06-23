@@ -43,9 +43,12 @@ export class UserService {
     return this.userRepository.find({ select: ['id', 'name', 'lastname', 'username', 'email', 'role'], relations: ['role'] });
   }
 
-  async findOneByUsername(username: string): Promise<User> {
+  async findOneByUsernameOrEmail(usernameOrEmail: string): Promise<User | undefined> {
     const user = await this.userRepository.findOne({
-      where: { username },
+      where: [
+        { username: usernameOrEmail },
+        { email: usernameOrEmail }
+      ],
       relations: ['role', 'account', 'role.privileges'],
     });
 
