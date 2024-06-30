@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { Customer } from './entities/customer.entity';
@@ -34,28 +34,25 @@ export class CustomerService {
     return this.customerRepository.find({ relations: ['addresses', 'addresses.commune'] });
   }
 
+  findDeleted() {
+    return this.customerRepository.find({
+      where: { deletedAt: Not(IsNull()) },
+      relations: ['addresses', 'addresses.commune'],
+      withDeleted: true,
+    });
+  }
+
   async findOne(id: number): Promise<Customer> {
-    const customer = await this.customerRepository.findOne({ where: { id: id } });
-    if (!customer) {
-      throw new BadRequestException(`Customer with ID ${id} not found`);
-    }
+    const customer = await this.customerRepository.findOne({ where: { id: id }, relations: ['addresses', 'addresses.commune'] });
     return customer;
   }
 
   async update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    try {
-      await this.customerRepository.update(id, updateCustomerDto);
-      return this.findOne(id);
-    } catch (error) {
-      throw new BadRequestException(`Failed to update customer with ID ${id}`);
-    }
+    await this.customerRepository.update(id, updateCustomerDto);
+    return this.findOne(id);
   }
 
   async remove(id: number) {
-    const result = await this.customerRepository.delete(id);
-    if (result.affected === 0) {
-      throw new BadRequestException(`Failed to delete customer with ID ${id}`);
-    }
-    return { message: `Customer with ID ${id} successfully deleted` };
+    return await this.customerRepository.softDelete(id);
   }
 }

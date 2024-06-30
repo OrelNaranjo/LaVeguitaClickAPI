@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CommuneService } from './commune.service';
 import { CreateCommuneDto } from './dto/create-commune.dto';
 import { UpdateCommuneDto } from './dto/update-commune.dto';
-@Controller('commune')
+@Controller('communes')
 export class CommuneController {
   constructor(private readonly communeService: CommuneService) {}
 

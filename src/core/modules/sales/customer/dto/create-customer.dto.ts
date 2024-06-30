@@ -1,4 +1,5 @@
-import { IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { CreateAddressDto } from '../../../../../shared/modules/address/dto/create-address.dto';
 
 export class CreateCustomerDto {
   @IsNotEmpty()
@@ -25,11 +26,6 @@ export class CreateCustomerDto {
   @IsString()
   description?: string;
 
-  @IsOptional()
-  @IsBoolean()
-  is_active?: boolean;
-
-  @IsOptional()
-  @IsBoolean()
-  is_deleted?: boolean;
+  @IsNotEmpty()
+  addresses: CreateAddressDto[];
 }

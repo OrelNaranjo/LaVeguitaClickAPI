@@ -3,7 +3,7 @@ import { CreateRegionDto } from './dto/create-region.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
 import { RegionService } from './region.service';
 
-@Controller('region')
+@Controller('regions')
 export class RegionController {
   constructor(private readonly regionService: RegionService) {}
 

@@ -18,6 +18,11 @@ export class CustomerController {
     return this.customerService.findAll();
   }
 
+  @Get('deleted')
+  findAllWithDeleted() {
+    return this.customerService.findDeleted();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.customerService.findOne(+id);

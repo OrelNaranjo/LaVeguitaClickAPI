@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { City } from '../../city/entities/city.entity';
 
 @Entity()
@@ -9,6 +9,10 @@ export class Commune {
   @Column()
   name: string;
 
+  @Column()
+  city_id: number;
+
   @ManyToOne(() => City, (city) => city.communes)
+  @JoinColumn({ name: 'city_id' })
   city: City;
 }

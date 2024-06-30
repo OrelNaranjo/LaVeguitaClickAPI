@@ -15,10 +15,10 @@ export class Address {
   @Column()
   zip_code: string;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', default: 0 })
   latitude: number;
 
-  @Column({ type: 'float' })
+  @Column({ type: 'float', default: 0 })
   longitude: number;
 
   @ManyToOne(() => Commune)

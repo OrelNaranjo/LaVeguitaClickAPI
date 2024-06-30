@@ -67,10 +67,10 @@ export class SeederService {
       await this.accountRepository.save(accounts);
 
       // Seed Location
-      await this.countryRepository.save(countries);
-      await this.regionRepository.save(regions);
-      await this.cityRepository.save(cities);
-      await this.communeRepository.save(communes);
+      await this.countryRepository.insert(countries);
+      await this.regionRepository.insert(regions);
+      await this.cityRepository.insert(cities);
+      await this.communeRepository.insert(communes);
 
       // Seed Supplier, Employee , Categories, Pruducts for Testing
       await this.supplierRepository.save(suppliers);
