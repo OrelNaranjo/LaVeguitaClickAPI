@@ -20,7 +20,8 @@ import { cities } from './data-seeder/city.data';
 import { communes } from './data-seeder/commune.data';
 import { countries } from './data-seeder/country.data';
 import { regions } from './data-seeder/region.data';
-import { suppliers, employees, categories, products, warehouses, stocks } from './data-seeder/test.data';
+import { suppliers, employees, categories, products, warehouses, stocks, customers } from './data-seeder/test.data';
+import { Customer } from '../../modules/sales/customer/entities/customer.entity';
 
 @Injectable()
 export class SeederService {
@@ -53,6 +54,8 @@ export class SeederService {
     private warehouseRepository: Repository<Warehouse>,
     @InjectRepository(Stock)
     private stockRepository: Repository<Stock>,
+    @InjectRepository(Customer)
+    private customerRepository: Repository<Customer>,
   ) {}
 
   async seed() {
@@ -76,6 +79,7 @@ export class SeederService {
       await this.productRepository.save(products);
       await this.warehouseRepository.save(warehouses);
       await this.stockRepository.save(stocks);
+      await this.customerRepository.save(customers);
 
       return { message: 'Data seeded successfully!' };
     } catch (error) {

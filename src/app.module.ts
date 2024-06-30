@@ -11,6 +11,7 @@ import { WarehouseModule } from './core/modules/production/warehouse/warehouse.m
 import { ProductModule } from './core/modules/production/product/product.module';
 import { StockModule } from './core/modules/production/stock/stock.module';
 import { EmployeeModule } from './core/modules/staff/employee/employee.module';
+import { CustomerModule } from './core/modules/sales/customer/customer.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { EmployeeModule } from './core/modules/staff/employee/employee.module';
     ProductModule,
     StockModule,
     EmployeeModule,
+    CustomerModule,
   ],
   controllers: [AppController],
   providers: [AppService],

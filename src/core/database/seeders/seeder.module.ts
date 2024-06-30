@@ -16,6 +16,7 @@ import { Supplier } from '../../modules/purchases/supplier/entities/supplier.ent
 import { Employee } from '../../modules/staff/employee/entities/employee.entity';
 import { SeederController } from './seeder.controller';
 import { SeederService } from './seeder.service';
+import { Customer } from '../../modules/sales/customer/entities/customer.entity';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { SeederService } from './seeder.service';
       Product,
       Warehouse,
       Stock,
+      Customer,
     ]),
   ],
   controllers: [SeederController],

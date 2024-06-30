@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 't
 import { Employee } from '../../../../core/modules/staff/employee/entities/employee.entity';
 import { Commune } from '../../commune/entities/commune.entity';
 import { Supplier } from '../../../../core/modules/purchases/supplier/entities/supplier.entity';
+import { Customer } from '../../../../core/modules/sales/customer/entities/customer.entity';
 
 @Entity()
 export class Address {
@@ -14,10 +15,10 @@ export class Address {
   @Column()
   zip_code: string;
 
-  @Column()
+  @Column({ type: 'float' })
   latitude: number;
 
-  @Column()
+  @Column({ type: 'float' })
   longitude: number;
 
   @ManyToOne(() => Commune)
@@ -30,4 +31,8 @@ export class Address {
   @ManyToOne(() => Supplier, (supplier) => supplier.addresses, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'supplierId' })
   supplier: Supplier;
+
+  @ManyToOne(() => Customer, (customer) => customer.addresses, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'customerId' })
+  customer: Customer;
 }
