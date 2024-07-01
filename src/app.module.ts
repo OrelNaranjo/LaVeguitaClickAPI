@@ -12,6 +12,7 @@ import { ProductModule } from './core/modules/production/product/product.module'
 import { StockModule } from './core/modules/production/stock/stock.module';
 import { EmployeeModule } from './core/modules/staff/employee/employee.module';
 import { CustomerModule } from './core/modules/sales/customer/customer.module';
+import { InvoiceModule } from './core/modules/sales/invoice/invoice.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { CustomerModule } from './core/modules/sales/customer/customer.module';
     StockModule,
     EmployeeModule,
     CustomerModule,
+    InvoiceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

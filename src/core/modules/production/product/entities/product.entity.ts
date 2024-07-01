@@ -1,7 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany, DeleteDateColumn } from 'typeorm';
 import { Category } from '../../category/entities/category.entity';
 import { Stock } from '../../stock/entities/stock.entity';
 import { Image } from '../../../../../shared/modules/image/entities/image.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Product {
@@ -31,6 +32,10 @@ export class Product {
 
   @Column('decimal')
   weight_kg: number;
+
+  @DeleteDateColumn()
+  @Exclude()
+  deletedAt?: Date;
 
   @ManyToMany(() => Category, { cascade: true })
   @JoinTable()

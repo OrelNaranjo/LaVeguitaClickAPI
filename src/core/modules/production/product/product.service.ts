@@ -12,7 +12,6 @@ export class ProductService {
     private productRepository: Repository<Product>,
   ) {}
 
-  // Create product
   async create(createProductDto: CreateProductDto) {
     const newProduct = this.productRepository.create(createProductDto);
     try {
@@ -25,23 +24,19 @@ export class ProductService {
     }
   }
 
-  // Find all products
   findAll() {
     return this.productRepository.find({ relations: ['categories', 'images', 'stocks'] });
   }
 
-  // Find product by id
   findOne(id: number) {
     return this.productRepository.findOne({ where: { id: id }, relations: ['categories', 'images'] });
   }
 
-  // Update product
   update(id: number, updateProductDto: UpdateProductDto) {
     return this.productRepository.update(id, updateProductDto);
   }
 
-  // Remove product
   remove(id: number) {
-    return this.productRepository.delete(id);
+    return this.productRepository.softDelete(id);
   }
 }
