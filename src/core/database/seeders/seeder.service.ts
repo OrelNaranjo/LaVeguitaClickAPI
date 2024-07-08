@@ -58,21 +58,19 @@ export class SeederService {
     private customerRepository: Repository<Customer>,
   ) {}
 
-  async seed() {
-    try {
-      // Seed Account
+  async seed(): Promise<void> {
+    const count = await this.accountRepository.count();
+    if (count === 0) {
       await this.privilegeRepository.save(privileges);
       await this.roleRepository.save(roles);
       await this.userRepository.save(users);
       await this.accountRepository.save(accounts);
 
-      // Seed Location
       await this.countryRepository.insert(countries);
       await this.regionRepository.insert(regions);
       await this.cityRepository.insert(cities);
       await this.communeRepository.insert(communes);
 
-      // Seed Supplier, Employee , Categories, Pruducts for Testing
       await this.supplierRepository.save(suppliers);
       await this.employeeRepository.save(employees);
       await this.categoryRepository.save(categories);
@@ -80,10 +78,6 @@ export class SeederService {
       await this.warehouseRepository.save(warehouses);
       await this.stockRepository.save(stocks);
       await this.customerRepository.save(customers);
-
-      return { message: 'Data seeded successfully!' };
-    } catch (error) {
-      throw new Error(`Data seeding failed! Error: ${error.message}`);
     }
   }
 }
