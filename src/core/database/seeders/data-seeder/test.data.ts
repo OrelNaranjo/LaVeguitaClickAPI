@@ -6,7 +6,7 @@ export const suppliers = [
     rut: '12345678-5',
     company_name: 'Test Company',
     phone: '123456789',
-    email: 'test@test.com',
+    email: 'orelnaranjo@gmail.com',
     description: 'This is a test company',
     contacts: [
       {

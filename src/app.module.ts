@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './core/modules/auth/auth.module';
 import { DatabaseService } from './core/database/database.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -13,6 +12,9 @@ import { StockModule } from './core/modules/production/stock/stock.module';
 import { EmployeeModule } from './core/modules/staff/employee/employee.module';
 import { CustomerModule } from './core/modules/sales/customer/customer.module';
 import { InvoiceModule } from './core/modules/sales/invoice/invoice.module';
+import { OrderModule } from './core/modules/purchases/order/order.module';
+import { DataSource } from 'typeorm';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 
 @Module({
   imports: [
@@ -29,8 +31,17 @@ import { InvoiceModule } from './core/modules/sales/invoice/invoice.module';
     EmployeeModule,
     CustomerModule,
     InvoiceModule,
+    OrderModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: 'TRANSACTIONAL_DATA_SOURCE',
+      useFactory: async (dataSource: DataSource) => {
+        return addTransactionalDataSource(dataSource);
+      },
+      inject: [DataSource],
+    },
+  ],
 })
 export class AppModule {}

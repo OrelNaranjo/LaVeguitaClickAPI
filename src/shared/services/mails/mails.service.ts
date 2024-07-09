@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import handlebars from 'handlebars';
-import hbs from 'nodemailer-express-handlebars';
-import nodemailer from 'nodemailer';
+import * as hbs from 'nodemailer-express-handlebars';
+import * as nodemailer from 'nodemailer';
+import * as dotenv from 'dotenv';
 
+dotenv.config();
 @Injectable()
 export class MailsService {
   private transporter: nodemailer.Transporter;
@@ -28,7 +30,6 @@ export class MailsService {
 
     this.companyData = {
       companyName: process.env.COMPANY_NAME,
-      logoUrl: process.env.COMPANY_LOGO_URL,
       companyAddress: process.env.COMPANY_ADDRESS,
       companyPhone: process.env.COMPANY_PHONE,
       companyEmail: process.env.COMPANY_EMAIL,
@@ -59,7 +60,7 @@ export class MailsService {
       attachments: [
         {
           filename: 'logotipo-largo.png',
-          path: this.companyData.logoUrl,
+          path: 'src/assets/images/logotipo-largo.png',
           cid: 'companyLogo',
         },
       ],
