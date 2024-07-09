@@ -10,6 +10,8 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderDetail } from './entities/order-detail.entity';
 import { Order } from './entities/order.entity';
 import { Transactional } from 'typeorm-transactional';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 @Injectable()
 export class OrderService {
@@ -28,47 +30,78 @@ export class OrderService {
   ) {}
 
   @Transactional()
-  async create(createOrderDto: CreateOrderDto) {
-    const { employeeId, supplierId, orderDetails } = createOrderDto;
+  async create(createOrderDto: CreateOrderDto, shouldSendEmail: boolean) {
+    const { employee, supplier, orderDetails } = createOrderDto;
 
-    const [employee, supplier] = await Promise.all([
-      this.employeeRepository.findOneBy({ id: employeeId }),
-      this.supplierRepository.findOneBy({ id: supplierId }),
+    const [employeeEntity, supplierEntity] = await Promise.all([
+      this.employeeRepository.findOneBy({ id: employee.id }),
+      this.supplierRepository.findOneBy({ id: supplier.id }),
     ]);
 
-    const lastOrder = (await this.ordersRepository.find({ order: { orderNumber: 'DESC' }, take: 1 }))[0] || { orderNumber: 0 };
-
-    if (!employee) {
-      throw new NotFoundException(`Employee with ID ${employeeId} not found`);
+    if (!employeeEntity) {
+      throw new NotFoundException(`Employee with ID ${employee.id} not found`);
     }
 
-    if (!supplier) {
-      throw new NotFoundException(`Supplier with ID ${supplierId} not found`);
+    if (!supplierEntity) {
+      throw new NotFoundException(`Supplier with ID ${supplier.id} not found`);
     }
 
-    const newOrderNumber = lastOrder ? lastOrder.orderNumber + 1 : 1;
+    const newOrderNumber = await this.ordersRepository.query("SELECT nextval('order_number_seq') as nextval");
+    const orderNumber = newOrderNumber[0].nextval;
 
-    const newOrder = this.ordersRepository.create({ ...createOrderDto, orderNumber: newOrderNumber, employee, supplier });
+    const newOrder = this.ordersRepository.create({ ...createOrderDto, orderNumber, employee, supplier });
+
     const savedOrder = await this.ordersRepository.save(newOrder);
+
+    let totalOrder = 0;
 
     const savedOrderDetails = await Promise.all(
       orderDetails.map(async (detail) => {
-        const product = await this.productRepository.findOneBy({ id: detail.productId });
+        const product = await this.productRepository.findOneBy({ id: detail.product.id });
         if (!product) {
-          throw new NotFoundException(`Product with ID ${detail.productId} not found`);
+          throw new NotFoundException(`Product with ID ${detail.product.id} not found`);
         }
-        const orderDetail = this.orderDetailsRepository.create({ ...detail, order: savedOrder, product });
+        const subtotal = detail.quantity * product.cost;
+        totalOrder += subtotal;
+        const orderDetail = this.orderDetailsRepository.create({
+          quantity: detail.quantity,
+          price: product.price,
+          cost: product.cost,
+          subtotal: subtotal,
+          order: savedOrder,
+          product: product,
+        });
         return this.orderDetailsRepository.save(orderDetail);
       }),
     );
 
     savedOrder.orderDetails = savedOrderDetails;
+    savedOrder.total = totalOrder;
+    await this.ordersRepository.save(savedOrder);
 
-    setImmediate(() => {
-      this.sendOrderEmail(savedOrder);
-    });
+    if (shouldSendEmail) {
+      setImmediate(() => {
+        this.sendOrderEmail(savedOrder);
+      });
+    }
 
-    return savedOrder;
+    return {
+      id: savedOrder.id,
+      orderNumber: savedOrder.orderNumber,
+      notes: savedOrder.notes,
+      employee: employeeEntity,
+      supplier: supplierEntity,
+      orderDetails: savedOrderDetails.map((detail) => ({
+        id: detail.id,
+        quantity: detail.quantity,
+        price: detail.price,
+        cost: detail.cost,
+        subtotal: detail.subtotal,
+        product: detail.product,
+      })),
+      date: savedOrder.date,
+      total: savedOrder.total,
+    };
   }
 
   async sendOrderEmail(order: Order) {
@@ -76,21 +109,21 @@ export class OrderService {
       email: order.supplier.email,
       supplierName: order.supplier.company_name,
       orderNumber: order.orderNumber,
-      date: order.date,
-      employeeName: order.employee.first_name + order.employee.last_name,
+      date: format(order.date, 'PPPP', { locale: es }),
+      employeeName: order.employee.first_name + ' ' + order.employee.last_name,
       notes: order.notes,
       orderDetails: order.orderDetails.map((detail) => ({
         productName: detail.product.name,
         quantity: detail.quantity,
-        cost: detail.product.cost,
+        cost: detail.cost,
       })),
-      total: order.orderDetails.reduce((acc, detail) => acc + detail.quantity * detail.product.cost, 0),
+      total: order.total,
     };
     await this.mailsService.send('order', 'Orden de Compra', emailDetails);
   }
 
   findAll() {
-    return this.ordersRepository.find({ relations: ['orderDetails'] });
+    return this.ordersRepository.find({ relations: ['supplier'] });
   }
 
   findOne(id: number) {
@@ -106,10 +139,6 @@ export class OrderService {
   }
 
   async remove(id: number) {
-    const order = await this.ordersRepository.findOneBy({ id: id });
-    if (!order) {
-      throw new NotFoundException(`Order with ID ${id} not found`);
-    }
-    return this.ordersRepository.remove(order);
+    return this.ordersRepository.softDelete(id);
   }
 }

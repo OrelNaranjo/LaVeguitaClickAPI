@@ -2,7 +2,7 @@
 
 <h2>Estimado(a), {{supplierName}}!</h2>
 
-<p>Le enviamos los detalles de la orden de compra N°: <strong>{{ orderNumber }}</strong></p>
+<p>Le enviamos los detalles de la orden de compra N°: <strong>{{ orderNumber }}</strong> generada el día: {{ date }}</p>
 
 <table>
     <thead>
@@ -13,7 +13,7 @@
         </tr>
     </thead>
     <tbody>
-        {{#each purchaseOrderDetails}}
+        {{#each orderDetails}}
         <tr>
             <td>{{this.productName}}</td>
             <td>{{this.quantity}}</td>

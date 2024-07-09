@@ -15,11 +15,12 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
       entities: ['dist/**/*.entity{.ts,.js}'],
-      migrations: ['dist/db/migrations/*{.ts,.js}'],
+      migrations: ['dist/core/database/migrations/*{.ts,.js}'],
       dropSchema: process.env.DB_DROP_SCHEMA === 'true' || false,
       synchronize: process.env.DB_SYNCRONIZE === 'true' || false,
       migrationsTableName: 'migrations',
       logging: process.env.DB_LOGGING === 'true' || false,
+      migrationsRun: true,
     };
   }
 }

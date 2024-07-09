@@ -17,4 +17,13 @@ export class OrderDetail {
 
   @Column()
   quantity: number;
+
+  @Column()
+  price: number;
+
+  @Column()
+  cost: number;
+
+  @Column()
+  subtotal: number;
 }

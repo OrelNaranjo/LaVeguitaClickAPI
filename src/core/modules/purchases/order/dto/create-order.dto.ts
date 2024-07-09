@@ -1,10 +1,21 @@
+import { Supplier } from './../../supplier/entities/supplier.entity';
 import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { Product } from '../../../production/product/entities/product.entity';
+import { Employee } from '../../../staff/employee/entities/employee.entity';
 
 class CreateOrderDetailDto {
   @IsNotEmpty()
   @IsNumber()
-  productId: number;
+  product: Product;
+
+  @IsNotEmpty()
+  @IsNumber()
+  price: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  cost: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -18,11 +29,11 @@ export class CreateOrderDto {
 
   @IsNotEmpty()
   @IsNumber()
-  employeeId: number;
+  employee: Employee;
 
   @IsNotEmpty()
   @IsNumber()
-  supplierId: number;
+  supplier: Supplier;
 
   @IsOptional()
   @IsString()
@@ -30,6 +41,9 @@ export class CreateOrderDto {
 
   @IsDate()
   date: Date;
+
+  @IsNumber()
+  total: number;
 
   @ValidateNested({ each: true })
   @Type(() => CreateOrderDetailDto)

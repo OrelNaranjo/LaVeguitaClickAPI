@@ -1,17 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiTags } from '@nestjs/swagger';
 
-@Controller('order')
+@UseInterceptors(ClassSerializerInterceptor)
+@Controller('orders')
 @ApiTags('Ordenes de Compra')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+  async create(@Body() createOrderDto: CreateOrderDto, @Query('sendEmail') sendEmail: string) {
+    const shouldSendEmail = sendEmail === 'true';
+    const savedOrder = await this.orderService.create(createOrderDto, shouldSendEmail);
+    return savedOrder;
   }
 
   @Get()
