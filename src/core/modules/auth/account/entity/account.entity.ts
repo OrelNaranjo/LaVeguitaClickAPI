@@ -1,6 +1,5 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
-import { Employee } from '../../../staff/employee/entities/employee.entity';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from '../../role/entities/role.entity';
 
 @Entity()
 export class Account {
@@ -10,9 +9,22 @@ export class Account {
   @Column({ default: true })
   is_active: boolean;
 
-  @OneToOne(() => User, (user) => user.account)
-  user: User;
+  @Column({ unique: true })
+  email: string;
 
-  @OneToOne(() => Employee, (employee) => employee.account)
-  employee: Employee;
+  @Column()
+  password: string;
+
+  @Column()
+  username: string;
+
+  @Column()
+  first_name: string;
+
+  @Column()
+  last_name: string;
+
+  @ManyToMany(() => Role)
+  @JoinTable()
+  roles: Role[];
 }

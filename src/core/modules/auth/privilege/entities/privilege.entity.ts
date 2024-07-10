@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
-import { Role } from '../../role/entities/role.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Privilege {
@@ -11,7 +10,4 @@ export class Privilege {
 
   @Column()
   description: string;
-
-  @ManyToMany(() => Role, (role) => role.privileges)
-  roles: Role[];
 }

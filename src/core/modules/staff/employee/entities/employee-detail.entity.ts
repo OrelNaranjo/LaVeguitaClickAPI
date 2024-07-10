@@ -31,7 +31,4 @@ export class EmployeeDetail {
   @ManyToOne(() => Employee, (employee) => employee.employeeDetails, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'employeeId' })
   employee: Employee;
-
-  @Column({ default: false })
-  is_deleted: boolean;
 }

@@ -1,9 +1,9 @@
 import { Controller, Get, HttpCode, HttpException, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { GetUsername } from './core/decorators/app.decorator';
 import { AuthGuard } from './core/guards/auth/auth.guard';
-import { User } from './core/modules/auth/user/entities/user.entity';
+import { Account } from './core/modules/auth/account/entity/account.entity';
 
-@Controller()
+@Controller('')
 export class AppController {
   @Get()
   getRoot() {
@@ -13,7 +13,7 @@ export class AppController {
   @UseGuards(AuthGuard)
   @Post()
   @HttpCode(200)
-  getStatus(@GetUsername() username: User) {
+  getStatus(@GetUsername() username: Account['username']) {
     return {
       username: username,
       status: 'OK',

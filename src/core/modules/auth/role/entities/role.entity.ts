@@ -1,5 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
-import { User } from '../../user/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 import { Privilege } from '../../privilege/entities/privilege.entity';
 
 @Entity()
@@ -13,10 +12,7 @@ export class Role {
   @Column()
   description: string;
 
-  @OneToMany(() => User, (user) => user.role)
-  users: User[];
-
-  @ManyToMany(() => Privilege, (privilege) => privilege.roles)
+  @ManyToMany(() => Privilege)
   @JoinTable()
   privileges: Privilege[];
 }

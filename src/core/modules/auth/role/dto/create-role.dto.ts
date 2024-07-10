@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { Privilege } from '../../privilege/entities/privilege.entity';
 
 export class CreateRoleDto {
   @IsNotEmpty()
@@ -6,5 +7,5 @@ export class CreateRoleDto {
 
   description: string;
 
-  privileges: number[];
+  privileges: Privilege[];
 }

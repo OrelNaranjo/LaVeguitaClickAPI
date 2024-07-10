@@ -19,22 +19,16 @@ export class Employee {
   @Column({ type: 'date' })
   birth_date: Date;
 
-  @Column({ default: true })
-  is_active: boolean;
-
   @ManyToOne(() => Employee, (employee) => employee.id, { nullable: true })
   manager: Employee;
 
   @OneToMany(() => EmployeeDetail, (employeeDetail) => employeeDetail.employee, { cascade: true })
   employeeDetails: EmployeeDetail[];
 
-  @OneToOne(() => Account, (account) => account.employee, { cascade: true })
+  @OneToOne(() => Account, { cascade: true })
   @JoinColumn()
   account: Account;
 
   @OneToMany(() => Address, (address) => address.employee, { cascade: true })
   addresses: Address[];
-
-  @Column({ default: false })
-  is_deleted: boolean;
 }

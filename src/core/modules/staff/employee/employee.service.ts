@@ -51,7 +51,7 @@ export class EmployeeService {
 
   // Retrieve all employees
   findAll() {
-    return this.employeeRepository.find({ relations: ['employeeDetails', 'addresses'] });
+    return this.employeeRepository.find({ relations: ['employeeDetails', 'addresses', 'account', 'account.user'] });
   }
 
   // Retrieve a single employee and its details
@@ -77,12 +77,12 @@ export class EmployeeService {
     return this.employeeDetailRepository.update(id, updateEmployeeDetailDto);
   }
 
-  // Remove an employee and its details
-  async remove(id: number) {
+  async disable(id: number, updateEmployeeDto: UpdateEmployeeDto) {
     const employee = await this.employeeRepository.findOneBy({ id: id });
     if (!employee) {
       throw new NotFoundException(`Employee with ID ${id} not found`);
     }
-    return this.employeeRepository.update(id, { is_deleted: true });
+    updateEmployeeDto.account.is_active = false;
+    return this.employeeRepository.update(id, updateEmployeeDto);
   }
 }

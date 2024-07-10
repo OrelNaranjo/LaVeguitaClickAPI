@@ -7,7 +7,6 @@ import { Region } from '../../../shared/modules/region/entities/region.entity';
 import { Account } from '../../modules/auth/account/entity/account.entity';
 import { Privilege } from '../../modules/auth/privilege/entities/privilege.entity';
 import { Role } from '../../modules/auth/role/entities/role.entity';
-import { User } from '../../modules/auth/user/entities/user.entity';
 import { Category } from '../../modules/production/category/entities/category.entity';
 import { Product } from '../../modules/production/product/entities/product.entity';
 import { Stock } from '../../modules/production/stock/entities/stock.entity';
@@ -28,7 +27,6 @@ import { Customer } from '../../modules/sales/customer/entities/customer.entity'
       Account,
       Role,
       Privilege,
-      User,
       Supplier,
       Employee,
       Category,

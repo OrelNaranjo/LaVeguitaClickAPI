@@ -8,14 +8,13 @@ import { Region } from '../../../shared/modules/region/entities/region.entity';
 import { Account } from '../../modules/auth/account/entity/account.entity';
 import { Privilege } from '../../modules/auth/privilege/entities/privilege.entity';
 import { Role } from '../../modules/auth/role/entities/role.entity';
-import { User } from '../../modules/auth/user/entities/user.entity';
 import { Category } from '../../modules/production/category/entities/category.entity';
 import { Product } from '../../modules/production/product/entities/product.entity';
 import { Stock } from '../../modules/production/stock/entities/stock.entity';
 import { Warehouse } from '../../modules/production/warehouse/entities/warehouse.entity';
 import { Supplier } from '../../modules/purchases/supplier/entities/supplier.entity';
 import { Employee } from '../../modules/staff/employee/entities/employee.entity';
-import { privileges, roles, users, accounts } from './data-seeder/account.data';
+import { privileges, roles, accounts } from './data-seeder/account.data';
 import { cities } from './data-seeder/city.data';
 import { communes } from './data-seeder/commune.data';
 import { countries } from './data-seeder/country.data';
@@ -38,8 +37,6 @@ export class SeederService {
     private privilegeRepository: Repository<Privilege>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
     @InjectRepository(Account)
     private accountRepository: Repository<Account>,
     @InjectRepository(Supplier)
@@ -63,7 +60,6 @@ export class SeederService {
     if (count === 0) {
       await this.privilegeRepository.save(privileges);
       await this.roleRepository.save(roles);
-      await this.userRepository.save(users);
       await this.accountRepository.save(accounts);
 
       await this.countryRepository.insert(countries);

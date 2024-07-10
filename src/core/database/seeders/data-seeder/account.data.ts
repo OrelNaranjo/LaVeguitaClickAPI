@@ -1,17 +1,17 @@
 import * as bcrypt from 'bcrypt';
 
 export const privileges = [
-  { id: 1, name: 'create', description: 'Create privilege', roles: [] },
-  { id: 2, name: 'view', description: 'View privilege', roles: [] },
-  { id: 3, name: 'update', description: 'Update privilege', roles: [] },
-  { id: 4, name: 'delete', description: 'Delete privilege', roles: [] },
+  { id: 1, name: 'create', description: 'Create privilege' },
+  { id: 2, name: 'view', description: 'View privilege' },
+  { id: 3, name: 'update', description: 'Update privilege' },
+  { id: 4, name: 'delete', description: 'Delete privilege' },
 ];
 
 export const roles = [
-  { id: 1, name: 'admin', description: 'Administrador', users: [], privileges: [privileges[0], privileges[1], privileges[2], privileges[3]] },
+  { id: 1, name: 'admin', description: 'Administrador', privileges: [privileges[0], privileges[1], privileges[2], privileges[3]] },
 ];
 
-export const users = [
+export const accounts = [
   {
     id: 1,
     first_name: 'Orel',
@@ -19,8 +19,8 @@ export const users = [
     username: 'OrelDev',
     password: bcrypt.hashSync('Abcd1234!', 10),
     email: 'or.naranjo@duocuc.cl',
-    account: null,
-    role: roles[0],
+    is_active: true,
+    roles: [{ id: 1 }],
   },
   {
     id: 2,
@@ -29,8 +29,8 @@ export const users = [
     username: 'User2',
     password: bcrypt.hashSync('Password2!', 10),
     email: 'user2@example.com',
-    account: null,
-    role: roles[0],
+    is_active: true,
+    roles: [{ id: 1 }],
   },
   {
     id: 3,
@@ -39,8 +39,8 @@ export const users = [
     username: 'User3',
     password: bcrypt.hashSync('Password3!', 10),
     email: 'user3@example.com',
-    account: null,
-    role: roles[0],
+    is_active: true,
+    roles: [{ id: 1 }],
   },
   {
     id: 4,
@@ -49,8 +49,8 @@ export const users = [
     username: 'User4',
     password: bcrypt.hashSync('Password4!', 10),
     email: 'user4@example.com',
-    account: null,
-    role: roles[0],
+    is_active: true,
+    roles: [{ id: 1 }],
   },
   {
     id: 5,
@@ -59,15 +59,7 @@ export const users = [
     username: 'User5',
     password: bcrypt.hashSync('Password5!', 10),
     email: 'user5@example.com',
-    account: null,
-    role: roles[0],
+    is_active: true,
+    roles: [{ id: 1 }],
   },
-];
-
-export const accounts = [
-  { id: 1, is_active: true, user: users[0] },
-  { id: 2, is_active: true, user: users[1] },
-  { id: 3, is_active: true, user: users[2] },
-  { id: 4, is_active: true, user: users[3] },
-  { id: 5, is_active: true, user: users[4] },
 ];

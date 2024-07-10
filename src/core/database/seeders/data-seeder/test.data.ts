@@ -53,7 +53,6 @@ export const employees = [
         contract_number: 1,
         employee: { id: 1 },
         fire_date: null,
-        is_deleted: false,
       },
     ],
     addresses: [
@@ -84,7 +83,6 @@ export const employees = [
         contract_number: 2,
         employee: { id: 2 },
         fire_date: null,
-        is_deleted: false,
       },
     ],
     addresses: [
@@ -115,7 +113,6 @@ export const employees = [
         contract_number: 3,
         employee: { id: 3 },
         fire_date: null,
-        is_deleted: false,
       },
     ],
     addresses: [
@@ -146,7 +143,6 @@ export const employees = [
         contract_number: 4,
         employee: { id: 4 },
         fire_date: null,
-        is_deleted: false,
       },
     ],
     addresses: [
@@ -177,7 +173,6 @@ export const employees = [
         contract_number: 5,
         employee: { id: 5 },
         fire_date: null,
-        is_deleted: false,
       },
     ],
     addresses: [

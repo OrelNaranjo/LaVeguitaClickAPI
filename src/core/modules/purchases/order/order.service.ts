@@ -112,7 +112,7 @@ export class OrderService {
       supplierName: order.supplier.company_name,
       orderNumber: order.orderNumber,
       date: format(order.date, 'PPPP', { locale: es }),
-      employeeName: order.employee.account.user.first_name + ' ' + order.employee.account.user.last_name,
+      employeeName: order.employee.account.first_name + ' ' + order.employee.account.last_name,
       notes: order.notes,
       orderDetails: order.orderDetails.map((detail) => ({
         productName: detail.product.name,
