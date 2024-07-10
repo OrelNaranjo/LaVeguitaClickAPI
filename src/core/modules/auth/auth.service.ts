@@ -13,25 +13,23 @@ export class AuthService {
   ) {}
 
   async validateUser(usernameOrEmail: string, password: string): Promise<any> {
-    const user = await this.accountService.findOneByUsernameOrEmail(usernameOrEmail);
-    if (user && bcrypt.compareSync(password, user.password)) {
-      return user;
+    const account = await this.accountService.findOneByUsernameOrEmail(usernameOrEmail);
+    if (account && bcrypt.compareSync(password, account.password)) {
+      return account;
     }
     return null;
   }
 
   async login(credentials: LoginCredentialsDto): Promise<LoginResponseDto> {
-    const user = await this.validateUser(credentials.username, credentials.password);
-    if (!user) {
+    const account = await this.validateUser(credentials.username, credentials.password);
+    if (!account) {
       throw new UnauthorizedException('Las credenciales proporcionadas son incorrectas');
     }
     const payload = {
-      user: {
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-      },
-      roles: user.roles.map((role: { name: string }) => role.name),
+      first_name: account.first_name,
+      last_name: account.last_name,
+      email: account.email,
+      roles: account.roles,
     };
     return {
       token: this.jwtService.sign(payload),

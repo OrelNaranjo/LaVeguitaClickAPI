@@ -37,13 +37,13 @@ export class AccountService {
   }
 
   async findAll() {
-    return this.accountRepository.find({ select: ['id', 'first_name', 'last_name', 'username', 'email', 'roles'], relations: ['role'] });
+    return this.accountRepository.find({ select: ['id', 'first_name', 'last_name', 'username', 'email', 'roles'], relations: ['roles'] });
   }
 
   async findOneByUsernameOrEmail(usernameOrEmail: string): Promise<Account | undefined> {
     const account = await this.accountRepository.findOne({
       where: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
-      relations: ['roles'],
+      relations: ['roles', 'employee'],
     });
 
     if (!account) {

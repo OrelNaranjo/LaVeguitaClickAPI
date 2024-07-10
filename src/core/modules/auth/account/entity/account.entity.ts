@@ -1,5 +1,6 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../../role/entities/role.entity';
+import { Employee } from '../../../staff/employee/entities/employee.entity';
 
 @Entity()
 export class Account {
@@ -23,6 +24,9 @@ export class Account {
 
   @Column()
   last_name: string;
+
+  @OneToOne(() => Employee, (employee) => employee.account)
+  employee = Employee;
 
   @ManyToMany(() => Role)
   @JoinTable()
