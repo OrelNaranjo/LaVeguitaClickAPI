@@ -25,7 +25,15 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Las credenciales proporcionadas son incorrectas');
     }
-    const payload = { name: user.name, lastname: user.lastname, role: user.role };
+    const payload = {
+      user: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+      },
+      role: user.role,
+      account: user.account,
+    };
     return {
       token: this.jwtService.sign(payload),
     };

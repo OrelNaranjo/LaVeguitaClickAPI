@@ -22,8 +22,8 @@ export class UserService {
   async create(user: CreateUserDto): Promise<Partial<User>> {
     const newUser = new User();
     newUser.username = user.username;
-    newUser.name = user.name;
-    newUser.lastname = user.lastname;
+    newUser.first_name = user.name;
+    newUser.last_name = user.lastname;
     newUser.email = user.email;
     newUser.password = bcrypt.hashSync(user.password, 10);
 
@@ -40,13 +40,13 @@ export class UserService {
   }
 
   async findAll() {
-    return this.userRepository.find({ select: ['id', 'name', 'lastname', 'username', 'email', 'role'], relations: ['role'] });
+    return this.userRepository.find({ select: ['id', 'first_name', 'last_name', 'username', 'email', 'role'], relations: ['role'] });
   }
 
   async findOneByUsernameOrEmail(usernameOrEmail: string): Promise<User | undefined> {
     const user = await this.userRepository.findOne({
       where: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
-      relations: ['role', 'account', 'role.privileges'],
+      relations: ['role', 'account', 'role.privileges', 'account.employee'],
     });
 
     if (!user) {

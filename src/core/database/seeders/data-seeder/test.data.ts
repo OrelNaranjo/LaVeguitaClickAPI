@@ -1,3 +1,4 @@
+import { accounts } from './account.data';
 import { ContractType } from '../../../../shared/enumerators/contract-type.enum';
 
 export const suppliers = [
@@ -36,13 +37,11 @@ export const suppliers = [
 export const employees = [
   {
     id: 1,
-    run: '15789432-7',
-    first_name: 'Juan',
-    last_name: 'Pérez',
-    email: 'juan.perez@empresa.cl',
-    phone: '987654321',
-    birth_date: new Date('1985-04-15'),
+    run: '15843755-4',
+    phone: '992891711',
+    birth_date: new Date('1984-03-21'),
     manager: null,
+    account: accounts[0],
     employeeDetails: [
       {
         id: 1,
@@ -71,9 +70,6 @@ export const employees = [
   {
     id: 2,
     run: '16853247-6',
-    first_name: 'María',
-    last_name: 'González',
-    email: 'maria.gonzalez@empresa.cl',
     phone: '912345678',
     birth_date: new Date('1990-07-22'),
     manager: null,
@@ -105,9 +101,6 @@ export const employees = [
   {
     id: 3,
     run: '20456789-K',
-    first_name: 'Carlos',
-    last_name: 'Sánchez',
-    email: 'carlos.sanchez@empresa.cl',
     phone: '923456789',
     birth_date: new Date('1988-09-30'),
     manager: null,
@@ -139,9 +132,6 @@ export const employees = [
   {
     id: 4,
     run: '21567890-5',
-    first_name: 'Elena',
-    last_name: 'Rodríguez',
-    email: 'elena.rodriguez@empresa.cl',
     phone: '934567890',
     birth_date: new Date('1992-12-10'),
     manager: null,
@@ -173,9 +163,6 @@ export const employees = [
   {
     id: 5,
     run: '22678901-4',
-    first_name: 'Roberto',
-    last_name: 'López',
-    email: 'roberto.lopez@empresa.cl',
     phone: '945678901',
     birth_date: new Date('1984-06-24'),
     manager: null,

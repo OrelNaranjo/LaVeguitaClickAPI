@@ -21,7 +21,7 @@ export class Order {
   @JoinColumn({ name: 'supplierId' })
   supplier: Supplier;
 
-  @Column()
+  @Column({ nullable: true })
   notes: string;
 
   @CreateDateColumn()

@@ -15,6 +15,7 @@ import { InvoiceModule } from './core/modules/sales/invoice/invoice.module';
 import { OrderModule } from './core/modules/purchases/order/order.module';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
+import { SupplierModule } from './core/modules/purchases/supplier/supplier.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
     CustomerModule,
     InvoiceModule,
     OrderModule,
+    SupplierModule,
   ],
   controllers: [AppController],
   providers: [

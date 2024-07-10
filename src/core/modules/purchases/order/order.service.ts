@@ -34,7 +34,7 @@ export class OrderService {
     const { employee, supplier, orderDetails } = createOrderDto;
 
     const [employeeEntity, supplierEntity] = await Promise.all([
-      this.employeeRepository.findOneBy({ id: employee.id }),
+      this.employeeRepository.findOne({ where: { id: employee.id }, relations: ['account', 'account.user'] }),
       this.supplierRepository.findOneBy({ id: supplier.id }),
     ]);
 
@@ -79,13 +79,7 @@ export class OrderService {
     savedOrder.total = totalOrder;
     await this.ordersRepository.save(savedOrder);
 
-    if (shouldSendEmail) {
-      setImmediate(() => {
-        this.sendOrderEmail(savedOrder);
-      });
-    }
-
-    return {
+    const result = {
       id: savedOrder.id,
       orderNumber: savedOrder.orderNumber,
       notes: savedOrder.notes,
@@ -102,6 +96,14 @@ export class OrderService {
       date: savedOrder.date,
       total: savedOrder.total,
     };
+
+    if (shouldSendEmail) {
+      setImmediate(() => {
+        this.sendOrderEmail(result as Order);
+      });
+    }
+
+    return result;
   }
 
   async sendOrderEmail(order: Order) {
@@ -110,7 +112,7 @@ export class OrderService {
       supplierName: order.supplier.company_name,
       orderNumber: order.orderNumber,
       date: format(order.date, 'PPPP', { locale: es }),
-      employeeName: order.employee.first_name + ' ' + order.employee.last_name,
+      employeeName: order.employee.account.user.first_name + ' ' + order.employee.account.user.last_name,
       notes: order.notes,
       orderDetails: order.orderDetails.map((detail) => ({
         productName: detail.product.name,

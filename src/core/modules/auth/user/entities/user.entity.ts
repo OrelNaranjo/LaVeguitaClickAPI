@@ -11,10 +11,10 @@ export class User {
   username: string;
 
   @Column({ length: 100 })
-  name: string;
+  first_name: string;
 
   @Column({ length: 100 })
-  lastname: string;
+  last_name: string;
 
   @Column({ length: 100 })
   email: string;
@@ -25,7 +25,7 @@ export class User {
   @ManyToOne(() => Role, (role) => role.users)
   role: Role;
 
-  @OneToOne(() => Account, (account) => account.user, { cascade: true })
+  @OneToOne(() => Account, (account) => account.user)
   @JoinColumn()
   account: Account;
 }

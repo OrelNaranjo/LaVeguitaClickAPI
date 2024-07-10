@@ -1,7 +1,8 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Address } from '../../../../../shared/modules/address/entities/address.entity';
 import { IsRut } from '../../../../../shared/validators/rut/rut.validator';
 import { EmployeeDetail } from './employee-detail.entity';
+import { Account } from '../../../auth/account/entity/account.entity';
 
 @Entity()
 export class Employee {
@@ -11,15 +12,6 @@ export class Employee {
   @IsRut()
   @Column({ unique: true })
   run: string;
-
-  @Column()
-  first_name: string;
-
-  @Column()
-  last_name: string;
-
-  @Column()
-  email: string;
 
   @Column()
   phone: string;
@@ -35,6 +27,10 @@ export class Employee {
 
   @OneToMany(() => EmployeeDetail, (employeeDetail) => employeeDetail.employee, { cascade: true })
   employeeDetails: EmployeeDetail[];
+
+  @OneToOne(() => Account, (account) => account.employee, { cascade: true })
+  @JoinColumn()
+  account: Account;
 
   @OneToMany(() => Address, (address) => address.employee, { cascade: true })
   addresses: Address[];
